@@ -88,8 +88,10 @@ class RESTView(object):
             # Store file data in database
             self.db_add_file(file_id, file_data)
             # Hopefully everything worked out, so return the data from the file
+            self.request.response.status = '201 Created'
             return file_data
         except:
+            self.request.response.status = '503 Service Unavailable'
             return dict(success=False)
 
     @view_config(request_method='GET', route_name='files_uuid')
@@ -101,8 +103,10 @@ class RESTView(object):
             external_filename = file_data['name']
             file_response = FileResponse(os.path.join(self.path_file_storage, '%s' % file_id))
             file_response.content_disposition = 'attachment; filename=%s' % external_filename
+            self.request.response.status = '200 OK'
             return file_response
         except:
+            self.request.response.status = '404 Not Found'
             return dict(success=False)
 
     @view_config(request_method='GET', route_name='file_details')
@@ -112,8 +116,10 @@ class RESTView(object):
         try:
             file_data = self.db_fetch_file(file_id)
             del file_data['key'] # Remove the secret key only the creator is supposed to know
+            self.request.response.status = '200 OK'
             return file_data
         except:
+            self.request.response.status = '404 Not Found'
             return dict(success=False)
 
     @view_config(request_method='DELETE', route_name='file_uuid_key')
@@ -124,13 +130,16 @@ class RESTView(object):
         try:
             file_data = self.db_fetch_file(file_id)
         except:
+            self.request.response.status = '404 Not Found'
             return dict(success=False)
         if file_data['key'] == file_key:
             # Delete file and db entry
             file_path = os.path.join(self.path_file_storage, '%s' % file_id)
             os.remove(file_path)
             self.db_delete_file(file_id)
+            self.request.response.status = '200 OK'
             return dict(success=True)
         else:
+            self.request.response.status = '500 Internal Server Error'
             return dict(success=False)
 
