@@ -13,6 +13,11 @@ export VENV=/path/to/venv
 python3 -m venv $VENV
 $VENV/bin/pip install -e .
 ```
+
+##Adapt the configuration
+Check the contents of `settings.ini` to define what interface the service shall bind to.
+Also location for files and the shelve database can be configured in there.
+
 ##Run the application
 
 ```
