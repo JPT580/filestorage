@@ -11,11 +11,11 @@
   <h1>Welcome!</h1>
   <p>
     This site enables users to upload files for temporary or permanent access.
-    Since the PUT method of the API is used to upload files, please enable javascript.
+    Since the POST method of the API is used to upload files, please enable javascript.
   </p>
   <p>
     Use this command to upload a file using curl:
-    <pre>curl -X PUT {{ request.route_url('files') }} -F "file=@/path/to/your/file"</pre>
+    <pre>curl -X POST {{ request.route_url('files') }} -F "file=@/path/to/your/file"</pre>
     You will get a JSON response containing a bunch of checksums and a <b>key</b>.
     Take good care of it, as <b>the key it is your only way to delete the file later</b>! 
     In order to <b>delete</b> a file, use this curl command:

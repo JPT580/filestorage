@@ -62,12 +62,12 @@ class RESTView(object):
                 buf = infile.read(BLOCKSIZE)
         return hasher.hexdigest()
 
-    @view_config(request_method='PUT')
-    def put(self):
+    @view_config(request_method='POST')
+    def post(self):
         try:
             # Create a fresh uuid for the new file
             file_id = str(uuid.uuid4())
-            # Use PUT /files to create a new file
+            # Use POST /files to create a new file
             input_file = self.request.POST['file'].file
             # Write the data into a temporary file
             temp_file_path = os.path.join(self.path_tmp, '%s' % file_id) + '~'

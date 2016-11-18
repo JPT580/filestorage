@@ -13,7 +13,7 @@ $(document).ready(function() {
             contentType: false,
             processData: false,
             data: form_data,                         
-            type: 'PUT',
+            type: 'POST',
             success: function(response_text){
                 response = $.parseJSON(response_text);
                 displayAttributes = ['uuid', 'key', 'name', 'size', 'create_utc', 'md5', 'sha1', 'sha256'];
