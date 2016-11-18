@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Filestorage Service</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="{{ request.static_url('filestorage:static/app.css') }}"/>
+    <script type="text/javascript" src="{{ request.static_url('filestorage:static/jquery-3.1.1.min.js') }}"></script>
+    <script type="text/javascript" src="{{ request.static_url('filestorage:static/app.js') }}"></script>
+</head>
+<body>
+  <h1>Welcome!</h1>
+  <p>
+    This site enables users to upload files for temporary or permanent access.
+    Since the PUT method of the API is used to upload files, please enable javascript.
+  </p>
+  <p>
+    Use this command to upload a file using curl:
+    <pre>curl {{ request.route_url('files') }} -X PUT -F "file=@/path/to/your/file"</pre>
+  </p>
+  <p>
+    Use this form to upload a file! (TODO: Implement with jQuery, properly display results)
+    <form action="/files" method="PUT" accept-charset="utf-8" enctype="multipart/form-data">
+      <label for="file">File</label>
+      <input id="file" name="file" type="file" value="" />
+      <input type="submit" value="Upload!" />
+    </form>
+  </p>
+</body>
+</html>
