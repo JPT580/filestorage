@@ -81,8 +81,10 @@ class RESTView(object):
             filehash_md5 = self.hash_file(target_file_path, hashlib.md5())
             filehash_sha1 = self.hash_file(target_file_path, hashlib.sha1())
             filehash_sha256 = self.hash_file(target_file_path, hashlib.sha256())
+            # Get filesize
+            file_size = os.path.getsize(target_file_path)
             # Gather all data about the file
-            file_data = dict(uuid=file_id,name=self.request.POST['file'].filename, key=str(uuid.uuid4()), create_utc=str(datetime.datetime.utcnow()), sha256=filehash_sha256, sha1=filehash_sha1, md5=filehash_md5)
+            file_data = dict(uuid=file_id,name=self.request.POST['file'].filename, size=file_size, key=str(uuid.uuid4()), create_utc=str(datetime.datetime.utcnow()), sha256=filehash_sha256, sha1=filehash_sha1, md5=filehash_md5)
             # Store file data in database
             self.db_add_file(file_id, file_data)
             # Hopefully everything worked out, so return the data from the file

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Filestorage Service</title>
+    <title>Filestorage</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="{{ request.static_url('filestorage:static/app.css') }}"/>
     <script type="text/javascript" src="{{ request.static_url('filestorage:static/jquery-3.1.1.min.js') }}"></script>
@@ -15,15 +15,31 @@
   </p>
   <p>
     Use this command to upload a file using curl:
-    <pre>curl {{ request.route_url('files') }} -X PUT -F "file=@/path/to/your/file"</pre>
+    <pre>curl -X PUT {{ request.route_url('files') }} -F "file=@/path/to/your/file"</pre>
+    You will get a JSON response containing a bunch of checksums and a <b>key</b>.
+    Take good care of it, as <b>the key it is your only way to delete the file later</b>! 
+    In order to <b>delete</b> a file, use this curl command:
+    <pre>curl -X DELETE {{ request.route_url('files') }}/<i>uuid</i>/<i>key</i></pre>
   </p>
-  <p>
-    Use this form to upload a file! (TODO: Implement with jQuery, properly display results)
-    <form action="/files" method="PUT" accept-charset="utf-8" enctype="multipart/form-data">
-      <label for="file">File</label>
-      <input id="file" name="file" type="file" value="" />
-      <input type="submit" value="Upload!" />
-    </form>
-  </p>
+  <div id="upload-form-block">
+    <h3>Upload a file!</h3>
+    <p>
+      Use this form to upload a file!
+      <input id="input-file" name="file" type="file" value="" /><br>
+      <button id="upload-submit-button">Upload this file!"</button>
+    </p>
+  </div>
+  <div id="upload-results-block">
+    <h3>Upload results</h3>
+    <p>
+      Use this curl command to delete the file in the future:
+      <pre>curl -X DELETE {{ request.route_url('files') }}/<span id="result-uuid"></span>/<span id="result-key"></span></pre>
+      <h5>File attributes</h5>
+      <div id="attributes"></div>
+      <h5>JSON response</h5>
+      <pre id="upload-raw-response"></pre><br>
+      <button id="button-new-upload" type="button">Got it. Upload another file!</button>
+    </p>
+  </div>
 </body>
 </html>
